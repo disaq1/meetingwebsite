@@ -5,7 +5,7 @@
     </h1>
     <section class="questionnaires__items">
       <QuestionnaireCard
-        v-for="user of users.data"
+        v-for="user of users"
         :key="user.id"
         :profile="user"
         class="questionnaires__item"
@@ -22,22 +22,14 @@ export default {
   components: {
     QuestionnaireCard
   },
-  data: () => ({
-    users: []
-  }),
-  async mounted () {
-    this.users = await this.$axios.$get('https://dev.rusdat.net/api/test/profiles')
+  props: {
+    users: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
   }
-  // async fetch ({ store }) {
-  //   if (store.getters['users/users'].length === 0) {
-  //     await store.dispatch('users/fetch')
-  //   }
-  // },
-  // computed: {
-  //   users () {
-  //     return this.$store.getters['users/users']
-  //   }
-  // }
 }
 </script>
 
