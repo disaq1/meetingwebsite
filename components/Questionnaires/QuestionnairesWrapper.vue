@@ -24,9 +24,9 @@ export default {
   },
   props: {
     users: {
-      type: Object,
+      type: Array,
       default () {
-        return {}
+        return []
       }
     }
   }
