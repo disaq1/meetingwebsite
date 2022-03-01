@@ -1,5 +1,5 @@
 <template>
-  <form class="form">
+  <form class="form" @submit.prevent="onSubscribe">
     <input
       v-model="fullname"
       class="form__input font-display--roboto"
@@ -23,7 +23,7 @@
       :selected="selected"
       @select="optionSelect"
     />
-    <button class="form__btn" @click="closeModal">
+    <button type="submit" class="form__btn" @click="onSubscribe">
       <p class="font-display--comfortaa">
         ПОДПИСАТЬСЯ
       </p>
@@ -76,8 +76,10 @@ export default {
     },
     async onSubscribe () {
       try {
-        const { data } = await axios.post('https://dev.rusdat.net/api/test/crm/send_lead', { name: this.fullname, email: this.email, age: this.age })
-        console.log(data)
+        const data = await axios.post('https://dev.rusdat.net/api/test/crm/send_lead', { name: this.fullname, email: this.email, age: this.age, lang: document.documentElement.lang })
+        if (data.status === 201) {
+          this.closeModal()
+        }
       } catch (data) {
         console.log(data.error)
       }
@@ -133,6 +135,8 @@ export default {
       border-radius: 6px;
 
       cursor: pointer;
+
+      transition: all 0.3s ease-in-out;
       & p {
         font-size: 16px;
         font-style: normal;
@@ -142,6 +146,9 @@ export default {
         text-align: center;
 
         color: #FFFFFF;
+      }
+      &:hover {
+        background: #ff002d;
       }
     }
     &__eula {
