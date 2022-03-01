@@ -32,11 +32,11 @@
       <p class="questionnaireCard__description font-display--roboto">
         {{ profile.about }}
       </p>
-      <button class="questionnaireCard__btn">
+      <a href="mailto:profile@mail.ru" class="questionnaireCard__btn">
         <p class="font-display--comfortaa">
           НАПИСАТЬ
         </p>
-      </button>
+      </a>
     </div>
   </div>
 </template>
@@ -192,6 +192,8 @@ export default {
       box-shadow: 0 4px 15px 4px rgba(0, 0, 0, 0.15);
       border: none;
       border-radius: 6px;
+
+      text-decoration: none;
 
       cursor: pointer;
 
