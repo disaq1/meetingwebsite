@@ -61,7 +61,7 @@ export default {
       max-width: 1201px;
       margin: 24px auto 0;
       display: grid;
-      grid-template-columns: repeat( auto-fit, minmax(387px, 1fr) );
+      grid-template-columns: repeat( auto-fit, minmax(288px, 1fr) );
       grid-gap: 12px;
       justify-content: center;
     }
