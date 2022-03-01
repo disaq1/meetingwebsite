@@ -131,22 +131,6 @@
       <MainModalForm
         @closeModal="closeModal"
       />
-      <div class="mainModal__eula">
-        <label for="modal_eula">
-          <input id="modal_eula" type="checkbox">
-          <span class="font-display--roboto">
-            При нажатии на кнопку вы соглашаетесь с условиями <a href="#">Политики конфиденциальности</a>
-          </span>
-        </label>
-      </div>
-      <div class="mainModal__eula">
-        <label for="modal_notify">
-          <input id="modal_notify" type="checkbox">
-          <span class="font-display--roboto">
-            Я согласен получать уведомления и предложения
-          </span>
-        </label>
-      </div>
     </div>
   </div>
 </template>
@@ -161,13 +145,13 @@ export default {
   },
   data: () => {
     return {
-      firstScreen: true,
+      firstScreen: false,
       firstStep: false,
       secondStep: false,
       thirdStep: false,
       fourthStep: false,
       congratulations: false,
-      form: false
+      form: true
     }
   },
   methods: {
@@ -313,29 +297,6 @@ export default {
       line-height: 14px;
       letter-spacing: 0;
       text-align: center;
-    }
-    &__eula {
-      & label {
-        display: flex;
-        align-items: baseline;
-        & input {
-
-        }
-        & span {
-          font-size: 14px;
-          font-style: normal;
-          font-weight: 300;
-          line-height: 16px;
-          letter-spacing: 0;
-          text-align: left;
-          & a {
-            text-decoration: none;
-            margin: 0;
-            padding: 0;
-            color: #773344;
-          }
-        }
-      }
     }
     &::after {
       position: absolute;
