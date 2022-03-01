@@ -70,7 +70,10 @@ export default {
   }
   .select {
     position: relative;
+
     width: 100%;
+
+    cursor: pointer;
     &__selected {
       margin: 0 0 12px;
       padding: 14px 30px 14px 15px;
@@ -111,6 +114,10 @@ export default {
       text-align: left;
 
       cursor: pointer;
+      &:hover {
+        transition: all 0.3s ease-in-out;
+        background: whitesmoke;
+      }
     }
     &::after {
       position: absolute;
