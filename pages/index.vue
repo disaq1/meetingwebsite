@@ -6,7 +6,7 @@
     />
     <QuestionnairesWrapper
       v-if="questionnairesOpen"
-      :users="response.data"
+      :users="users"
     />
   </div>
 </template>
@@ -21,20 +21,20 @@ export default {
     MainModalWrapper,
     QuestionnairesWrapper
   },
-  async asyncData ({ $axios }) {
-    const response = await $axios.$get('https://dev.rusdat.net/api/test/profiles')
-    if (response.status === 200) {
-      return { response }
-    } else {
-      alert(response.error)
-      console.log(response.error)
-    }
-  },
   data () {
     return {
       modalOpen: true,
-      questionnairesOpen: false,
-      response: []
+      questionnairesOpen: false
+    }
+  },
+  async fetch ({ store }) {
+    if (store.getters['users/response'].length === 0) {
+      await store.dispatch('users/fetch')
+    }
+  },
+  computed: {
+    users () {
+      return this.$store.getters['users/response'].data
     }
   },
   methods: {
