@@ -1,7 +1,13 @@
 <template>
   <div class="wrapper">
-    <MainModalWrapper v-if="modalOpen" @closeModal="closeModal" />
-    <QuestionnairesWrapper v-if="questionnairesOpen" />
+    <MainModalWrapper
+      v-if="modalOpen"
+      @closeModal="closeModal"
+    />
+    <QuestionnairesWrapper
+      v-if="questionnairesOpen"
+      :users="response.data"
+    />
   </div>
 </template>
 
@@ -15,10 +21,20 @@ export default {
     MainModalWrapper,
     QuestionnairesWrapper
   },
+  async asyncData ({ $axios }) {
+    const response = await $axios.$get('https://dev.rusdat.net/api/test/profiles')
+    if (response.status === 200) {
+      return { response }
+    } else {
+      alert(response.error)
+      console.log(response.error)
+    }
+  },
   data () {
     return {
       modalOpen: true,
-      questionnairesOpen: false
+      questionnairesOpen: false,
+      response: []
     }
   },
   methods: {
