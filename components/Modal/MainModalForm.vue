@@ -1,16 +1,19 @@
 <template>
   <form class="form">
     <input
+      v-model="fullname"
       class="form__input font-display--roboto"
       type="text"
       placeholder="Введите имя"
     >
     <input
+      v-model="email"
       class="form__input font-display--roboto"
       type="text"
       placeholder="E-mail"
     >
     <input
+      v-model="age"
       class="form__input font-display--roboto"
       type="text"
       placeholder="Выберите возраст"
@@ -25,10 +28,25 @@
         ПОДПИСАТЬСЯ
       </p>
     </button>
+    <div class="form__eula">
+      <label for="form_eula">
+        <input id="form_eula" type="checkbox">
+        <span class="font-display--roboto">
+          При нажатии на кнопку вы соглашаетесь с условиями <a href="#">Политики конфиденциальности</a>
+        </span>
+      </label>
+      <label for="form_notify">
+        <input id="form_notify" type="checkbox">
+        <span class="font-display--roboto">
+          Я согласен получать уведомления и предложения
+        </span>
+      </label>
+    </div>
   </form>
 </template>
 
 <script>
+import axios from 'axios'
 import MainModalFormSelect from '~/components/Modal/MainModalFormSelect'
 
 export default {
@@ -38,6 +56,9 @@ export default {
   },
   data () {
     return {
+      fullname: '',
+      email: '',
+      age: '',
       options: [
         { name: '20-30', value: 1, isChecked: false },
         { name: '30-40', value: 2, isChecked: false },
@@ -52,6 +73,14 @@ export default {
     },
     closeModal () {
       this.$emit('closeModal')
+    },
+    async onSubscribe () {
+      try {
+        const { data } = await axios.post('https://dev.rusdat.net/api/test/crm/send_lead', { name: this.fullname, email: this.email, age: this.age })
+        console.log(data)
+      } catch (data) {
+        console.log(data.error)
+      }
     }
   }
 }
@@ -113,6 +142,34 @@ export default {
         text-align: center;
 
         color: #FFFFFF;
+      }
+    }
+    &__eula {
+      margin: 15px 0 0;
+      & label {
+        margin: 0 0 10px;
+        display: flex;
+        align-items: baseline;
+        & input {
+
+        }
+        & span {
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 300;
+          line-height: 16px;
+          letter-spacing: 0;
+          text-align: left;
+          & a {
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            color: #773344;
+          }
+        }
+        &:last-child {
+          margin: 0;
+        }
       }
     }
     @media screen and (min-width: 970px) {
