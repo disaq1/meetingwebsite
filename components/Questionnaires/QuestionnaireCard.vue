@@ -57,7 +57,7 @@ export default {
 
 <style lang="scss" scoped>
   @mixin smooth {
-    transition: all 0.3s ease-in-out;
+    transition: all .3s ease-in-out;
   }
   .font-display {
     &--comfortaa {
@@ -172,7 +172,7 @@ export default {
     }
     &__description {
       grid-area: _description;
-      overflow-y: scroll;
+      overflow-y: auto;
 
       margin: 0;
       padding: 0;
@@ -183,6 +183,19 @@ export default {
       line-height: 16px;
       letter-spacing: 0;
       text-align: left;
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: #e4e4e4;
+        border-radius: 100px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #E3B5A4;
+        border-radius: 100px;
+      }
     }
     &__btn {
       grid-area: _btn;
