@@ -30,13 +30,13 @@
     </button>
     <div class="form__eula">
       <label for="form_eula">
-        <input id="form_eula" type="checkbox">
+        <input id="form_eula" type="checkbox" @click="eula =! eula">
         <span class="font-display--roboto">
           При нажатии на кнопку вы соглашаетесь с условиями <a href="#">Политики конфиденциальности</a>
         </span>
       </label>
       <label for="form_notify">
-        <input id="form_notify" type="checkbox">
+        <input id="form_notify" type="checkbox" @click="notify =! notify">
         <span class="font-display--roboto">
           Я согласен получать уведомления и предложения
         </span>
@@ -59,10 +59,12 @@ export default {
       fullname: '',
       email: '',
       age: '',
+      eula: false,
+      notify: false,
       options: [
-        { name: '20-30', value: 1, isChecked: false },
-        { name: '30-40', value: 2, isChecked: false },
-        { name: '40-50', value: 3, isChecked: false }
+        { name: '20-30', value: 1 },
+        { name: '30-40', value: 2 },
+        { name: '40-50', value: 3 }
       ],
       selected: 'Какого возраста хотите найти девушку?'
     }
@@ -77,7 +79,7 @@ export default {
     async onSubscribe () {
       try {
         const data = await axios.post('https://dev.rusdat.net/api/test/crm/send_lead', { name: this.fullname, email: this.email, age: this.age, lang: document.documentElement.lang })
-        if (data.status === 201) {
+        if (data.status === 201 && this.eula && this.notify) {
           this.closeModal()
         }
       } catch (data) {
@@ -157,8 +159,9 @@ export default {
         margin: 0 0 10px;
         display: flex;
         align-items: baseline;
+        cursor: pointer;
         & input {
-
+          cursor: pointer;
         }
         & span {
           font-size: 14px;
