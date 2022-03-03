@@ -1,42 +1,69 @@
 <template>
   <form class="form" @submit.prevent="onSubscribe">
-    <input
-      v-model="fullname"
-      class="form__input font-display--roboto"
-      type="text"
-      placeholder="Введите имя"
-    >
-    <input
-      v-model="email"
-      class="form__input font-display--roboto"
-      type="text"
-      placeholder="E-mail"
-    >
-    <input
-      v-model="age"
-      class="form__input font-display--roboto"
-      type="text"
-      placeholder="Выберите возраст"
-    >
+    <div class="form__input-wrapper">
+      <input
+        v-model="fullname"
+        class="form__input font-display--roboto"
+        type="text"
+        placeholder="Введите имя"
+      >
+      <p v-if="!nameIsValid" class="form__input-error">
+        The name field is required.
+      </p>
+    </div>
+    <div class="form__input-wrapper">
+      <input
+        v-model="email"
+        class="form__input font-display--roboto"
+        type="text"
+        placeholder="E-mail"
+      >
+      <p v-if="!emailIsValid" class="form__input-error">
+        The email field is required and must be valid (ex: test@test.com).
+      </p>
+    </div>
+    <div class="form__input-wrapper">
+      <input
+        v-model.number="age"
+        class="form__input font-display--roboto"
+        type="text"
+        placeholder="Выберите возраст"
+      >
+      <p v-if="!ageIsValid" class="form__input-error">
+        The age field is required.
+      </p>
+      <p v-if="!ageIsValidType" class="form__input-error">
+        Input type must be a number.
+      </p>
+      <p v-if="!ageIsValidMinAge" class="form__input-error">
+        Min age is 18
+      </p>
+      <p v-if="!ageIsValidMaxAge" class="form__input-error">
+        Max age is 120
+      </p>
+    </div>
     <MainModalFormSelect
       :options="options"
       :selected="selected"
       @select="optionSelect"
     />
-    <button type="submit" class="form__btn" @click="onSubscribe">
+    <button
+      type="submit"
+      class="form__btn"
+    >
       <p class="font-display--comfortaa">
         ПОДПИСАТЬСЯ
       </p>
     </button>
     <div class="form__eula">
       <label for="form_eula">
-        <input id="form_eula" type="checkbox" @click="eula =! eula">
+        <input id="form_eula" type="checkbox" checked @click="eula =! eula">
         <span class="font-display--roboto">
           При нажатии на кнопку вы соглашаетесь с условиями <a href="#">Политики конфиденциальности</a>
         </span>
       </label>
       <label for="form_notify">
-        <input id="form_notify" type="checkbox" @click="notify =! notify">
+        <input id="form_notify" type="checkbox" checked @click="notify =! notify">
         <span class="font-display--roboto">
           Я согласен получать уведомления и предложения
         </span>
@@ -59,14 +86,34 @@ export default {
       fullname: '',
       email: '',
       age: '',
-      eula: false,
-      notify: false,
+      eula: true,
+      notify: true,
       options: [
         { name: '20-30', value: 1 },
         { name: '30-40', value: 2 },
         { name: '40-50', value: 3 }
       ],
       selected: 'Какого возраста хотите найти девушку?'
+    }
+  },
+  computed: {
+    nameIsValid () {
+      return !!this.fullname
+    },
+    emailIsValid () {
+      return !!this.email
+    },
+    ageIsValid () {
+      return this.ageIsValidType && this.ageIsValidMinAge && this.ageIsValidMaxAge
+    },
+    ageIsValidType () {
+      return typeof this.age === 'number'
+    },
+    ageIsValidMinAge () {
+      return this.age > 17
+    },
+    ageIsValidMaxAge () {
+      return this.age < 121
     }
   },
   methods: {
@@ -83,7 +130,7 @@ export default {
           this.closeModal()
         }
       } catch (data) {
-        console.log(data.error)
+        console.log(data)
       }
     }
   }
@@ -119,6 +166,16 @@ export default {
       letter-spacing: 0;
       text-align: left;
 
+      &-error {
+        margin: -5px 0 5px;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 14px;
+        letter-spacing: 0;
+        text-align: left;
+        color: #ff002d;
+      }
       &:focus,
       &:active {
         outline: 1px solid #773344;
